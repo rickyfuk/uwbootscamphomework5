@@ -3,10 +3,9 @@ $( document ).ready(function() {
 
     // var nowDate = moment().format("dddd, MMMM Do YYYY");
     // var nowHour = moment().hour();
-    // $("#currentDay").append(nowDate)
     
-    
-    var nowDateTime = new Date('August 19, 1975 15:15:30');
+    var saveDataArray = [];
+    var nowDateTime = new Date('August 19, 1984 16:15:30');
     var nowHour = moment(nowDateTime).hour();
     console.log(nowHour);
     var nowDate = moment(nowDateTime).format("dddd, MMMM Do YYYY");
@@ -46,6 +45,7 @@ $( document ).ready(function() {
         div4.setAttribute("class","input-group-append")
         var button1 = document.createElement("button");
         button1.setAttribute("type","submit");
+        button1.setAttribute('hourButton',hourCount);
 
         // append the element
         $("#timeBlockStart").append(div1);
@@ -61,6 +61,7 @@ $( document ).ready(function() {
         // set the button class and add the image for save icon
         $(button1).attr("class","btn btn-primary saveBtn");
         $(button1).html('<img src="../uwbootscamphomework5/assets/saveicon.png" alt ="save icon"></img>');
+        loadFromDPLocal();
     }
 
     let hourCount = 9;
@@ -81,7 +82,39 @@ $( document ).ready(function() {
         }
     })
 
-   
+    $("button").on("click",function(){
+        event.preventDefault();
+        // console.log($(this).attr("hourButton"));
+        var hourCheck = $(this).attr("hourButton");
+        // console.log(hourCheck);
+        // console.log($("#textarea"+hourCheck).val().trim());
+        var saveData = {
+            saveDataDate : nowDateSave,
+            saveDataHour : parseInt(hourCheck),
+            saveDataText : $("#textarea"+hourCheck).val().trim(),
+        };
+        console.log(saveData);
+        saveDataArray.push(saveData);
+        localStorage.setItem("dayplannerDataArray", JSON.stringify(saveDataArray));
+    })
+
+    function loadFromDPLocal(){
+        var storedResult = JSON.parse(localStorage.getItem("dayplannerDataArray"));
+        if (storedResult !== null) {
+            saveDataArray = storedResult;
+        }
+        for (k=0;k<saveDataArray.length;k++){
+            console.log(saveDataArray.length);
+            console.log(k);
+            // console.log(saveDataArray[k].saveDataDate);
+            // console.log(nowDateSave);
+            // console.log(saveDataArray[k].saveDataDate === nowDateSave);
+            if(saveDataArray[k].saveDataDate === nowDateSave){
+                $("#textarea"+(saveDataArray[k].saveDataHour)).val(saveDataArray[k].saveDataText);
+            };
+        };
+    };
+
 
 })
 
