@@ -1,85 +1,117 @@
 body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-  line-height: 1;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	line-height: 1;
 }
 
-textarea{
-  background: transparent !important;
-  border: none !important;
-  resize: none  !important;
-  color: #000000;
-  border-left: 1px solid #d3d3d3 !important;
-  padding: 10px !important;
+textarea {
+	background: transparent !important;
+	/* border: none !important; */
+	resize: none !important;
+	color: #000000;
+	/* border-left: 1px solid #d3d3d3 !important; */
+	padding: 10px !important;
 }
 
 .jumbotron {
-  text-align: center;
-  background-color: transparent;
-  color: black;
-  border-radius: 0;
-  border-bottom: 10px solid black;
+	text-align: center;
+	background-color: transparent;
+	background-image: linear-gradient(
+		to bottom right,
+		rgb(0, 255, 242),
+		rgb(7, 83, 204)
+	);
+	border-radius: 0;
+	border-bottom: 10px solid black;
+	color: whitesmoke;
 }
 
-.description{
-  white-space: pre-wrap;
+.selectdateDiv {
+	white-space: nowrap !important;
 }
 
-.time-block{
-  text-align: center;
-  border-radius: 15px;
+#selectDateBtn {
+	white-space: nowrap !important;
+}
+
+.datepickerInput {
+	border-radius: 2px;
+	border: none;
+	background-color: #ffffff;
+	text-align: center;
+	color: rgb(110, 110, 110);
+}
+
+#returntoToday {
+	border: none;
+	white-space: nowrap !important;
+}
+
+#selectDay {
+	border-top: none;
+}
+
+.description {
+	white-space: pre-wrap;
+}
+
+.time-block {
+	text-align: center;
+	border-radius: 15px;
 }
 
 .row {
-  white-space: pre-wrap;
-  height: 80px;
-  border-top: 1px solid white;;
+	white-space: pre-wrap;
+	height: 80px;
+	border-top: 1px solid white;
 }
 
 .hour {
-  background-color: #ffffff;
-  color: #000000;
-  border-top: 1px dashed #d3d3d3;
-  width:100px;
-  height: 80px;
-  line-height:0.8;
-  font-size: 20px;
+	background-color: #ffffff;
+	color: #000000;
+	border-top: 1px dashed #d3d3d3;
+	width: 100px;
+	height: 80px;
+	line-height: 0.8;
+	font-size: 20px;
 }
 
-
 .past {
-  background-color: #d3d3d3!important;
-  color: white!important;
+	background-color: #d3d3d3 !important;
+	color: white !important;
+	border: 1px solid grey;
 }
 
 .present {
-  background-color: #ff6961!important;
-  color: white!important;
+	background-color: #ff6961 !important;
+	color: white !important;
+	border: 1px solid grey;
 }
 
 .future {
-  background-color: #77dd77!important;
-  color: white!important;
+	background-color: #77dd77 !important;
+	color: white !important;
+	border: 1px solid grey;
 }
 
 .saveBtn {
-  border-left: 1px solid #06AED5;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: #06AED5;
-  color: white;
-  width: 100px;
-  height:80px;
-  vertical-align: middle;
-  line-height: 0.5!important;
+	border-left: 1px solid rgb(0, 183, 255);
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	background-color: rgb(0, 183, 255);
+	color: white;
+	width: 100px;
+	height: 80px;
+	vertical-align: middle;
+	line-height: 0.5 !important;
 }
 
 .saveBtn i:hover {
-  font-size: 20px;
-  transition: all .3s ease-in-out;
+	font-size: 20px;
+	transition: all 0.3s ease-in-out;
 }
 
-.saveBtn img{
-  width:20px;
-  vertical-align: middle;
+.saveBtn img {
+	width: 20px;
+	vertical-align: middle;
 }
