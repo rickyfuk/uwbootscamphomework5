@@ -1,28 +1,26 @@
 $(document).ready(function () {
-	// empty array for the saving the date / time / text content
 	var saveDataArray = [];
-	// set the now time
+	// var nowDateTime = new Date('August 19, 1984 16:15:30');
 	var nowDateTime = moment();
-	// a variable for current hour
 	var nowHour = moment(nowDateTime).hour();
-	// a variable for the current date in dddd, MMMM Do YYYY format
+	// var nowYear = moment(nowDateTime).year();
+	console.log(nowHour);
 	var nowDate = moment(nowDateTime).format('dddd, MMMM Do YYYY');
-	// a variable for the current date with the time as 00:00:00 (for comparsion to change the textarea format)
 	var nowDateOnly = moment(nowDateTime).set({
 		hour: 0,
 		minute: 0,
 		second: 0,
 		millisecond: 0,
 	});
-	// set the select Date as now (default setting)
+	console.log(nowDate);
+	console.log(nowDateOnly);
+	// var nowDateSave = moment(nowDateTime).format('MMMM Do YYYY');
 	var selectDate = nowDateTime;
-	// load if there are any save date (select by the user) from the session
+	console.log(selectDate);
 	loadFromDateSessionStroage();
-	// set the select date as save day (if any)
+	console.log(selectDate);
 	var selectDateOnly = moment(selectDate);
-	// set a display date format base on the select date
 	var selectDisplayDate = moment(selectDate).format('dddd, MMMM Do YYYY');
-	// set a save date format base on the select date
 	var selectDateSave = moment(selectDate).format('MMMM Do YYYY');
 
 	function createHourBlock(hourCount) {
@@ -56,8 +54,11 @@ $(document).ready(function () {
 		$('#timeBlockStart').append(div1);
 		div1.append(div2);
 		div2.append(div3);
+		// console.log(moment(hourCount, ["HH"]).format("hh A"));
 		$(div3).text(moment(hourCount, ['HH']).format('h A'));
 		div2.append(textarea1);
+		// console.log(nowHour);
+		// console.log(hourCount);
 		div2.append(div4);
 		div4.append(button1);
 		// set the button class and add the image for save icon
@@ -70,19 +71,23 @@ $(document).ready(function () {
 	}
 
 	function loadFromDPLocal() {
-		// load the result from local stroage
 		var storedResult = JSON.parse(
 			localStorage.getItem('dayplannerDataArray' + selectDateSave)
 		);
-		console.log(storedResult);
 		if (storedResult !== null) {
 			saveDataArray = storedResult;
 		}
-		// run all the save data from the array and append to the textarea if any
 		for (k = 0; k < saveDataArray.length; k++) {
-			$('#textarea' + saveDataArray[k].saveDataHour).val(
-				saveDataArray[k].saveDataText
-			);
+			// console.log(saveDataArray.length);
+			// console.log(k);
+			// console.log(saveDataArray[k].saveDataDate);
+			// console.log(nowDateSave);
+			// console.log(saveDataArray[k].saveDataDate === nowDateSave);
+			if (saveDataArray[k].saveDataDate === selectDateSave) {
+				$('#textarea' + saveDataArray[k].saveDataHour).val(
+					saveDataArray[k].saveDataText
+				);
+			}
 		}
 	}
 
@@ -112,6 +117,27 @@ $(document).ready(function () {
 		console.log($('#datepicker').datepicker('getDate'));
 		console.log(selectDate);
 	});
+
+	// let yearCount = nowYear + 10;
+	// for (let m = 0; m < nowYear - 1899 + 10; m++) {
+	// 	// run 9 times for the 9 hours from 9AM to 5PM
+	// 	createYearList(yearCount);
+	// 	yearCount--;
+	// }
+
+	// function createYearList() {
+	// 	var option1 = document.createElement('option');
+	// 	$(option1).text(yearCount);
+	// 	option1.setAttribute('value', yearCount);
+	// 	$('#yearSelection').append(option1);
+	// }
+
+	// function createDateList(dateCount) {
+	// 	var option2 = document.createElement('option');
+	// 	$(option2).text(dateCount);
+	// 	option2.setAttribute('value', dateCount);
+	// 	$('#dateSelection').append(option2);
+	// }
 
 	// append the date to jumbotron
 	$('#currentDay').append(selectDisplayDate);
@@ -168,63 +194,17 @@ $(document).ready(function () {
 		// console.log(hourCheck);
 		// console.log($("#textarea"+hourCheck).val().trim());
 		var saveData = {
+			saveDataDate: selectDateSave,
 			saveDataHour: parseInt(hourCheck),
 			saveDataText: $('#textarea' + hourCheck)
 				.val()
 				.trim(),
 		};
+		console.log(saveData);
 		saveDataArray.push(saveData);
-
-		// var temparr = saveDataArray.map(function (a) {
-		// 	return a.name;
-		// });
-		// var findDup = function (arr) {
-		// 	let dups = [];
-		// 	let compare = [];
-		// 	for (i = 0; i < arr.length; i++) {
-		// 		if (compare.includes(arr[i])) {
-		// 			dups.push(arr[i]);
-		// 		} else {
-		// 			compare.push(arr[i]);
-		// 			console.log(compare);
-		// 		}
-		// 	}
-		// 	return compare;
-		// };
-
-		// var lastIndex = function (arr1, arr2) {
-		// 	let lastIndexArr = [];
-		// 	for (j = 0; j < arr2.length; j++) {
-		// 		let num = arr1.lastIndexOf(arr2[j]);
-		// 		lastIndexArr.push(num);
-		// 	}
-		// 	return lastIndexArr;
-		// };
-
-		// var removeDup = function (arr1, arr2) {
-		// 	let finalResult = [];
-		// 	for (k = 0; k < arr2.length; k++) {
-		// 		finalResult.push(arr1[arr2[k]]);
-		// 	}
-		// 	return finalResult;
-		// };
-
-		// saveDataArrayFinal = removeDup(
-		// 	saveDataArray,
-		// 	lastIndex(saveDataArray, findDup(temparr))
-		// );
-
-		console.log(saveDataArray);
-		console.log(saveDataArrayFinal);
-
 		localStorage.setItem(
 			'dayplannerDataArray' + selectDateSave,
 			JSON.stringify(saveDataArray)
 		);
-
-		// localStorage.setItem(
-		// 	'dayplannerDataArray' + selectDateSave,
-		// 	JSON.stringify(saveDataArrayFinal)
-		// );
 	});
 });
