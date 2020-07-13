@@ -22,6 +22,7 @@ This project is to bulid a daily planner in order to drop down and find out the 
 1. Three local CSS files for styling the entire application:
    1. reset.css - to reset all the styling setting
    2. style.css - to add the style to this generator 
+   3. jquery-ui.css - to set the style for jquery UI item (i.e. Datepicker)
 2. 13 javascript file has been composed for this application:
     |         File name         |                    Description                    |    Applied to the Quiz of     |
     | :-----------------------: | :-----------------------------------------------: | :---------------------------: |

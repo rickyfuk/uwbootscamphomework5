@@ -86,6 +86,7 @@ $(document).ready(function () {
 		}
 	}
 
+	// load the select date from session stroage and so it will not being lose when reload the window
 	function loadFromDateSessionStroage() {
 		var storedDateResult = JSON.parse(sessionStorage.getItem('changeDate'));
 		if (storedDateResult !== null) {
@@ -101,16 +102,16 @@ $(document).ready(function () {
 		hourCount++;
 	}
 
+	// add the datepicker for the date selection
 	$('#datepicker').datepicker({
 		changeMonth: true,
 		changeYear: true,
 	});
 
+	// when the input for datepicker is change => get the date to select day
 	$('#datepicker').on('change', function () {
 		event.preventDefault();
 		selectDate = $('#datepicker').datepicker('getDate');
-		console.log($('#datepicker').datepicker('getDate'));
-		console.log(selectDate);
 	});
 
 	// append the date to jumbotron
@@ -118,8 +119,10 @@ $(document).ready(function () {
 
 	// change the color of the text area base on the time
 	$('.textareaStyle').each(function (j) {
+		// if the date is the day before => add the class as past
 		if (selectDateOnly < nowDateOnly) {
 			$('#textarea' + (j + 9)).addClass('past');
+			// if the date is today => check the time and change the class accordingly
 		} else if (selectDisplayDate === nowDate) {
 			if (
 				parseInt(nowHour) >
@@ -134,6 +137,7 @@ $(document).ready(function () {
 			} else {
 				$('#textarea' + (j + 9)).addClass('future');
 			}
+			// if teh date is furture => change the class to furture
 		} else {
 			$('#textarea' + (j + 9)).addClass('future');
 		}
@@ -142,7 +146,6 @@ $(document).ready(function () {
 	// when the 'go' button is click
 	$('#selectDateBtn').on('click', function () {
 		event.preventDefault();
-		console.log(selectDate);
 		// store the new date in the selectDate
 		sessionStorage.setItem('changeDate', JSON.stringify(selectDate));
 		// reload the page
@@ -153,7 +156,6 @@ $(document).ready(function () {
 	$('#returntoToday').on('click', function () {
 		event.preventDefault();
 		selectDate = nowDateTime;
-		console.log(selectDate);
 		// store the new date in the selectDate
 		sessionStorage.setItem('changeDate', JSON.stringify(selectDate));
 		// reload the page
@@ -163,68 +165,67 @@ $(document).ready(function () {
 	// when the save button is clicked
 	$('.saveBtn').on('click', function () {
 		event.preventDefault();
-		// console.log($(this).attr("hourButton"));
+		// locate the hour by the hourButton attriubute
 		var hourCheck = $(this).attr('hourButton');
-		// console.log(hourCheck);
-		// console.log($("#textarea"+hourCheck).val().trim());
+		// save the hour and textcontent in an object
 		var saveData = {
 			saveDataHour: parseInt(hourCheck),
 			saveDataText: $('#textarea' + hourCheck)
 				.val()
 				.trim(),
 		};
+		// push the data to the save data array
 		saveDataArray.push(saveData);
-
-		// var temparr = saveDataArray.map(function (a) {
-		// 	return a.name;
-		// });
-		// var findDup = function (arr) {
-		// 	let dups = [];
-		// 	let compare = [];
-		// 	for (i = 0; i < arr.length; i++) {
-		// 		if (compare.includes(arr[i])) {
-		// 			dups.push(arr[i]);
-		// 		} else {
-		// 			compare.push(arr[i]);
-		// 			console.log(compare);
-		// 		}
-		// 	}
-		// 	return compare;
-		// };
-
-		// var lastIndex = function (arr1, arr2) {
-		// 	let lastIndexArr = [];
-		// 	for (j = 0; j < arr2.length; j++) {
-		// 		let num = arr1.lastIndexOf(arr2[j]);
-		// 		lastIndexArr.push(num);
-		// 	}
-		// 	return lastIndexArr;
-		// };
-
-		// var removeDup = function (arr1, arr2) {
-		// 	let finalResult = [];
-		// 	for (k = 0; k < arr2.length; k++) {
-		// 		finalResult.push(arr1[arr2[k]]);
-		// 	}
-		// 	return finalResult;
-		// };
-
-		// saveDataArrayFinal = removeDup(
-		// 	saveDataArray,
-		// 	lastIndex(saveDataArray, findDup(temparr))
-		// );
-
-		console.log(saveDataArray);
-		console.log(saveDataArrayFinal);
+		// remove the duplicated data record
+		// (i.e.) if original textcontent for Jul-1-2020 3pm is ABC =>
+		// 		  and now the user input CBA =>
+		//        then CBA will replace ABC and the ABC object will remove from the array
+		// the purpose is to reduce the size of the array when the user repeat input a lot of times
+		// to do that we need the following 5 steps:
+		// 1. set up a temp arr
+		var temparr = saveDataArray.map(function (a) {
+			return a.saveDataHour;
+		});
+		// 2. find the dup item
+		var findDup = function (arr) {
+			let dups = [];
+			let compare = [];
+			for (a = 0; a < arr.length; a++) {
+				if (compare.includes(arr[a])) {
+					dups.push(arr[a]);
+				} else {
+					compare.push(arr[a]);
+					console.log(compare);
+				}
+			}
+			return compare;
+		};
+		// 3. find the last index for the dup item
+		var lastIndex = function (arr1, arr2) {
+			let lastIndexArr = [];
+			for (b = 0; b < arr2.length; b++) {
+				let num = arr1.lastIndexOf(arr2[b]);
+				lastIndexArr.push(num);
+			}
+			return lastIndexArr;
+		};
+		// 4. only get the last time to the final array
+		var removeDup = function (arr1, arr2) {
+			let finalResult = [];
+			for (c = 0; c < arr2.length; c++) {
+				finalResult.push(arr1[arr2[c]]);
+			}
+			return finalResult;
+		};
+		// 5. return the final result for saving
+		saveDataArrayFinal = removeDup(
+			saveDataArray,
+			lastIndex(temparr, findDup(temparr))
+		);
 
 		localStorage.setItem(
 			'dayplannerDataArray' + selectDateSave,
-			JSON.stringify(saveDataArray)
+			JSON.stringify(saveDataArrayFinal)
 		);
-
-		// localStorage.setItem(
-		// 	'dayplannerDataArray' + selectDateSave,
-		// 	JSON.stringify(saveDataArrayFinal)
-		// );
 	});
 });
