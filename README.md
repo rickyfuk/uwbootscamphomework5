@@ -19,33 +19,21 @@ Homework 4 - Code Quiz
 # General info
 This project is to bulid a daily planner in order to drop down and find out the note for the hour between (9AM-5PM).  
    
-1. Three local CSS files for styling the entire application:
+1. 3 local CSS files for styling the entire application:
    1. reset.css - to reset all the styling setting
    2. style.css - to add the style to this generator 
    3. jquery-ui.css - to set the style for jquery UI item (i.e. Datepicker)
-2. 13 javascript file has been composed for this application:
-    |         File name         |                    Description                    |    Applied to the Quiz of     |
-    | :-----------------------: | :-----------------------------------------------: | :---------------------------: |
-    |          main.js          | The script for the landing page of each html file | Javascript/CSS/HTML/Bootstrap |
-    |       globalvar.js        |          store all the global variables           | Javascript/CSS/HTML/Bootstrap |
-    |       questionJS.js       |        the function for the question body         | Javascript/CSS/HTML/Bootstrap |
-    |     scoreResultJS.js      |         the function for the Result body          | Javascript/CSS/HTML/Bootstrap |
-    |    viewHighscoreJS.js     |     the function for the View HighScore body      | Javascript/CSS/HTML/Bootstrap |
-    | bootstrapquestionPool.js  |     store and generate the questions for quiz     |           Bootstrap           |
-    |     bslocalStroage.js     |  the fuction to save and load the highscore list  |           Bootstrap           |
-    |  cssstrapquestionPool.js  |     store and generate the questions for quiz     |              CSS              |
-    |    csslocalStroage.js     |  the fuction to save and load the highscore list  |              CSS              |
-    |    htmlquestionPool.js    |     store and generate the questions for quiz     |             HTML              |
-    |    htmllocalStroage.js    |  the fuction to save and load the highscore list  |             HTML              |
-    |     jsquestionPool.js     |     store and generate the questions for quiz     |          Javascript           |
-    | javascriptlocalStroage.js |  the fuction to save and load the highscore list  |          Javascript           |
-
+2. 3 javascript file has been composed for this application:
+   1. script.js - the local script for the application
+   2. moment.js - the script for formatting and calculating the time
+   3. jquery-ui.js - the script for the Datepicker 
+    
 Please visit [https://rickyfuk.github.io/uwbootscamphomework5/](https://rickyfuk.github.io/uwbootscamphomework5/) for the site.
 
 For the feature of the site, please visit the [Features](#features) section for more details.
 
 # Screenshots
-![screenshot](https://github.com/rickyfuk/uwbootscamphomework4/blob/master/assets/image/screenshot.PNG?raw=true)
+![screenshot](https://github.com/rickyfuk/uwbootscamphomework5/blob/master/assets/image/screenshot.PNG?raw=true)
 
 # Features
 In this project, the following features have apply to the site:
