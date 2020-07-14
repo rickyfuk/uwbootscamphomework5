@@ -33,53 +33,23 @@ Please visit [https://rickyfuk.github.io/uwbootscamphomework5/](https://rickyfuk
 For the feature of the site, please visit the [Features](#features) section for more details.
 
 # Screenshots
-![screenshot](https://github.com/rickyfuk/uwbootscamphomework5/blob/master/assets/image/screenshot.PNG?raw=true)
+![screenshot](https://github.com/rickyfuk/uwbootscamphomework5/blob/master/assets/images/screenshot.PNG?raw=true)
 
 # Features
 In this project, the following features have apply to the site:
 
 1. Favicon have been added for the page
-2. 4 Different Quizes for the player to choose:
-   1. Javascript
-   2. CSS
-   3. HTML
-   4. Bootstrap
-   Player can choose the quiz by clikcing the button
-3. The player can have the following 3 options after they enter the landing page of the quiz
-   1. "Start Quiz" - go ahead to start the quiz
-   2. "View Highscore" - go to highscore page for the highscore table
-   3. "Main Menu" - return to the main menu for the Quiz options
+2. The users can pick a day from the input bar (a calander will show up after the input bar is click or selected)
+3. The users can retun to today by clicking the "Go to Today" button
+4. The text input area will change its color in the following scenerio:
+    |         Scenerio         | Color |
+    | :----------------------: | :---: |
+    | Any time before the hour | Grey  |
+    |       On the hour        |  Red  |
+    | Any time after the hour  | Green |
+
+5. The users can enter the any text in the text area and press "save button" (at the right end of thetext area) to save the item
    
-    Note : The button will change the layout regarding to the following screensize
-
-    |     Screen Size      |            Layout             |
-    | :------------------: | :---------------------------: |
-    |     Below Large      | The buttons stack vertically  |
-    | Equal or Above Large | The button stack horizontally |
-
-
-4. When the player enter the quiz, 75 seconds will be allow for the player to answer 5 questions.
-5. When the player choose the answer, the following features will come with the answer
-   1. The time will reduce 10 seconds if the answer is wrong
-   2. A sound effect will come with the correct or wrong answer after the player pick an answer
-   3.  The following message will appear under the choice after the player pick an answer
-       * "Correct" - when the answer is True
-       * "Wrong! The correct answer is XXXXX " - when the answer is False (XXXXX indicate the right answer)
-
-6. A "View Highscore" button located on the right bottom of the page - player can visit the Highscore table at anytime during the quiz and the quiz will stop
-   
-7. An "All Done" message will pop up after all question is answered
-    ![alldone](assets/image/alldone.png)
-   otherwise, a "Time Up" message will pop up if the allowed time is over (i.e. 75 seconds in this setup) 
-    ![timeup](assets/image/timeup.png)
-
-8.  The player have to entered at least one character for their initial in an input box in order to submit their initial to the highscore database. 
-   * A message "Thanks for playing" will appear under the input box
-    ![success](assets/image/success.png)
-    * A message "Please input your initial" will appear under the input box if the player did not enter any character and press "Submit" button  
-    ![errormessage](assets/image/errormessage.png) 
-9.  The player can remove the highscore record by clicking the "Clear Highest score"
-10. The player can return to the quiz main body (quiz landing page)
     
 
 # Code Style
@@ -89,25 +59,13 @@ Standard
 A general description for the every section on the top of the code to breifly explain the puopose of that section and some note for the section details.
 
   <div>
-  <img src="assets/image/descriptionexample.png" alt="Description Example">
+  <img src="assets/images/descriptionexample.png" alt="Description Example">
    *example for the section description*
   </div>
 
 For easier reference, the location of the function will place inside its description
- ![functionlocation](assets/image/functionlocation.png) 
-
- * From the above example, this means that the location of the function is located in the part "qJS 8" insdie "questionJS.js" file
- 
- 
- * If the function located in the same js file, no prefix (i.e. questionJS in this example) will be shown
- ![functionlocation2](assets/image/functionlocation2.png) 
-
-
- * For function "saveToLocal" and "loadFromLocal", 4 different js file have been used for 4 different local storage location
-      1. javascript - jsplayerResultArray
-      2. css - cssplayerResultArray
-      3. html - htmlplayerResultArray
-      4. bootstrap - bsplayerResultArray    
+ ![functionlocation](assets/images/functionlocation.png) 
+  
 
 
 # Technology
@@ -122,55 +80,105 @@ The following technology have been used for this project:
 # Code Example
 Below are some example for the code has been used and the corresponding outcome:
 
-1. To hide or show the content of different body parts, "setAttribute" with "style" and "display:none" or "display:block" has been used.
+1. To activiate the datepicker
     ```Javascript
-            // hide a part
-             mainBody.setAttribute ("style", "display:none;");
-            // show a part
-             mainBody.setAttribute ("style", "display:block;");
+            	// add the datepicker for the date selection
+                $('#datepicker').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                });
     ```
-2. To add a sound effect for the player choice with right or wrong response, the sound track has embedded into the html file and the execution script has placed in the questionJS javascript file.
-   * The embed code in html
+2. To add the datepicker function, the following link and script files are required
    ```html
-    <!-- the sound effect link  -->
-    <audio id="correctAnsAudio"><source src="assets/audio/Interface-beep-up-sound-effect.mp3"></audio>
-    <audio id="wrongAnsAudio"><source src="assets/audio/Fail-sound.mp3"></audio>
+        <!-- jquery UI CSS for "DatePicker" -->
+		<link rel="stylesheet" href="assets/CSS/jquery-ui.css" />
+		<!-- jquery -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<!-- jquery UI for "DatePicker" -->
+		<script src="../uwbootscamphomework5/jquery-ui.js"></script>
    ``` 
-   * The script to run the sound track   
+ 
+3.  To avoid the overloading for the array to save the data, the date has been added for the key name when the data is saving into the local stroage
     ```Javascript
-         // play correct sound effect
-            correctSound.play();
-        // play wrong sound effect
-            wrongSound.play();
+        // for saving the data into the local stroage
+        localStorage.setItem(
+			'dayplannerDataArray' + selectDateSave,
+			JSON.stringify(saveDataArrayFinal)
+        );
+        // for loading the date from the local stroage
+        var storedResult = JSON.parse(
+			localStorage.getItem('dayplannerDataArray' + selectDateSave)
+		);
     ```
-3.  Some function use setTimeout function to delay the execute time in order to let the player to read the response,
+4.  To avoid the overloading for the array to save the data, the following scripts added to remove the duplicated hours object where it had been save before
     ```Javascript
-        // wait for half second and do the following action:
-        // 1. hide the result body
-        // 2. show high score body
-        // 3. reset the input value and message to null
-        setTimeout(function(){
-            // hide the result body (function sRJS 5)
-            hideResultBody();
-            // show high score body (viewHighscoreJS - function vHJS 5)
-            showHighScoreBody();
-            // reset the result input as empty
-            resultInput.value = ""; 
-            // reset the resultMessage
-            resultMessage.textContent =""; 
-        },500); 
-        } 
+        // remove the duplicated data record
+		// (i.e.) if original textcontent for Jul-1-2020 3pm is ABC =>
+		// 		  and now the user input CBA =>
+		//        then CBA will replace ABC and the ABC object will remove from the array
+		// the purpose is to reduce the size of the array when the user repeat input a lot of times
+		// to do that we need the following 5 steps:
+		// 1. set up a temp arr
+		var temparr = saveDataArray.map(function (a) {
+			return a.saveDataHour;
+		});
+		// 2. find the dup item
+		var findDup = function (arr) {
+			let dups = [];
+			let compare = [];
+			for (a = 0; a < arr.length; a++) {
+				if (compare.includes(arr[a])) {
+					dups.push(arr[a]);
+				} else {
+					compare.push(arr[a]);
+					console.log(compare);
+				}
+			}
+			return compare;
+		};
+		// 3. find the last index for the dup item
+		var lastIndex = function (arr1, arr2) {
+			let lastIndexArr = [];
+			for (b = 0; b < arr2.length; b++) {
+				let num = arr1.lastIndexOf(arr2[b]);
+				lastIndexArr.push(num);
+			}
+			return lastIndexArr;
+		};
+		// 4. only get the last time to the final array
+		var removeDup = function (arr1, arr2) {
+			let finalResult = [];
+			for (c = 0; c < arr2.length; c++) {
+				finalResult.push(arr1[arr2[c]]);
+			}
+			return finalResult;
+		};
+		// 5. return the final result for saving
+		saveDataArrayFinal = removeDup(
+			saveDataArray,
+			lastIndex(temparr, findDup(temparr))
+		);
     ```
-4. As the chorme default setting, the "Clear Highest score" button will stay in focus status after it has been clicked. To fix this issue, "mousedown" and "mouseup" have been used instead of "click" 
-   ```Javascript
-   // set the click event to execute the clearHighScoreHistory function (function vHJS 3)
-        // Note : the button will stay in focus status after click when it is a click function (due to chrome default features)
-        // the walkaround is using mousedown and mouseup
-    clearRecord.addEventListener("mousedown", clearHighScoreHistory);
-    clearRecord.addEventListener("mouseup", function blurInput() {
-        document.getElementById('clearRecord').blur();
-      });
+5.  In order to make the date selection works, the page will reload after the user press "Go" button and the date will save into the session stroage. Below is an example for storing the select date in session stroage
+     ```Javascript
+        // saving the select date to session stroage
+        $('#selectDateBtn').on('click', function () {
+            event.preventDefault();
+            // store the new date in the selectDate
+            sessionStorage.setItem('changeDate', JSON.stringify(selectDate));
+            // reload the page
+            location.reload(true);
+	    });
+    
+        // load the select date from session stroage
+        function loadFromDateSessionStroage() {
+            var storedDateResult = JSON.parse(sessionStorage.getItem('changeDate'));
+            if (storedDateResult !== null) {
+                selectDate = storedDateResult;
+            }
+        }
     ```
+
  
 # Test
 1. The site have been tested by open with small/medium/large device respectively.
@@ -182,8 +190,7 @@ Project status: finished
 # Future Plan
 
 Plan for the future development of this site:
-1. Add the option page allow the user to change the time, number of question and color setting
-2. Add an database page for the user to make the changes for the question content   
+1. Add the features that the user can see the color change with the time instantly. (i.e. when the time reach 4pm, the 3pm block will turn grey and 4pm block turn red without refresh or any action)   
 
 # Create By
 Created by Chung Hei Fuk

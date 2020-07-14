@@ -25,6 +25,7 @@ $(document).ready(function () {
 	// set a save date format base on the select date
 	var selectDateSave = moment(selectDate).format('MMMM Do YYYY');
 
+	// function 1 - create the block
 	function createHourBlock(hourCount) {
 		// create div for the row
 		var div1 = document.createElement('div');
@@ -65,10 +66,11 @@ $(document).ready(function () {
 		$(button1).html(
 			'<img src="../uwbootscamphomework5/assets/images/saveicon.png" alt ="save icon"></img>'
 		);
-		// load the data from local stroage
+		// load the data from local stroage (function 2)
 		loadFromDPLocal();
 	}
 
+	// function 2 - load the text area data from local stroage
 	function loadFromDPLocal() {
 		// load the result from local stroage
 		var storedResult = JSON.parse(
@@ -86,7 +88,7 @@ $(document).ready(function () {
 		}
 	}
 
-	// load the select date from session stroage and so it will not being lose when reload the window
+	// function 3 - load the select date from session stroage and so it will not being lose when reload the window
 	function loadFromDateSessionStroage() {
 		var storedDateResult = JSON.parse(sessionStorage.getItem('changeDate'));
 		if (storedDateResult !== null) {
@@ -94,10 +96,11 @@ $(document).ready(function () {
 		}
 	}
 
+	// default - the script will run every time when the page open / reload
 	// set the for loop in order to run the day planner after every refresh
 	let hourCount = 9;
 	for (let i = 0; i < 9; i++) {
-		// run 9 times for the 9 hours from 9AM to 5PM
+		// run 9 times for the 9 hours from 9AM to 5PM (function 1)
 		createHourBlock(hourCount);
 		hourCount++;
 	}
