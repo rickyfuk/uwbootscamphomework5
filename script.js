@@ -2,7 +2,7 @@ $(document).ready(function () {
 	// empty array for the saving the date / time / text content
 	var saveDataArray = [];
 	// set the now time
-	var nowDateTime = moment();
+	var nowDateTime = moment().local();
 	// a variable for current hour
 	var nowHour = moment(nowDateTime).hour();
 	// a variable for the current date in dddd, MMMM Do YYYY format
@@ -16,6 +16,8 @@ $(document).ready(function () {
 	});
 	// set the select Date as now (default setting)
 	var selectDate = nowDateTime;
+	// refresh time (function 5)
+	nowTimeInterval = setInterval(refreshTime, 1000);
 	// load if there are any save date (select by the user) from the session
 	loadFromDateSessionStroage();
 	// set the select date as save day (if any)
@@ -24,6 +26,11 @@ $(document).ready(function () {
 	var selectDisplayDate = moment(selectDate).format('dddd, MMMM Do YYYY');
 	// set a save date format base on the select date
 	var selectDateSave = moment(selectDate).format('MMMM Do YYYY');
+	// the start hour for day planner (i.e. 8 - 8am / 12 -12nn / 16 -4pm )
+	let hourStart = 8;
+	// the hour block to show (i.e. 4 - 4 hours block a day from time start)
+	// (e.g. the start hour is 12nn and a hour block => 12nn/1pm/2pm/3pm)
+	let hourBlockRequire = 16;
 
 	// function 1 - create the block
 	function createHourBlock(hourCount) {
@@ -96,10 +103,70 @@ $(document).ready(function () {
 		}
 	}
 
+	// function 4 - set the color for the text area
+	function setTextAreaColor() {
+		// change the color of the text area base on the time
+		$('.textareaStyle').each(function (j) {
+			// if the date is the day before => add the class as past
+			// also it will remove the class which is not required
+			if (selectDateOnly < nowDateOnly) {
+				$('#textarea' + (j + hourStart)).addClass('past');
+				$('#textarea' + (j + hourStart)).removeClass('future');
+				$('#textarea' + (j + hourStart)).removeClass('present');
+				// if the date is today => check the time and change the class accordingly
+				// also it will remove the class which is not required
+			} else if (selectDisplayDate === nowDate) {
+				if (
+					parseInt(nowHour) >
+					parseInt($('#textarea' + (j + hourStart)).attr('hourTextArea'))
+				) {
+					$('#textarea' + (j + hourStart)).addClass('past');
+					$('#textarea' + (j + hourStart)).removeClass('future');
+					$('#textarea' + (j + hourStart)).removeClass('present');
+				} else if (
+					parseInt(nowHour) ===
+					parseInt($('#textarea' + (j + hourStart)).attr('hourTextArea'))
+				) {
+					$('#textarea' + (j + hourStart)).addClass('present');
+					$('#textarea' + (j + hourStart)).removeClass('future');
+					$('#textarea' + (j + hourStart)).removeClass('past');
+				} else {
+					$('#textarea' + (j + hourStart)).addClass('future');
+					$('#textarea' + (j + hourStart)).removeClass('past');
+					$('#textarea' + (j + hourStart)).removeClass('present');
+				}
+				// if the date is furture => change the class to furture
+				// also it will remove the class which is not required
+			} else {
+				$('#textarea' + (j + hourStart)).addClass('future');
+				$('#textarea' + (j + hourStart)).removeClass('future');
+				$('#textarea' + (j + hourStart)).removeClass('present');
+			}
+		});
+	}
+
+	// function 5 - refresh the Time every minute ensure the clock is up to date
+	function refreshTime() {
+		// refresh the now time
+		nowDateTime = moment();
+		console.log(nowDateTime);
+		// refresh current hour
+		nowHour = moment(nowDateTime).hour();
+		// refresh for the current date in dddd, MMMM Do YYYY format
+		nowDate = moment(nowDateTime).format('dddd, MMMM Do YYYY');
+		// refresh for the current date with the time as 00:00:00 (for comparsion to change the textarea format)
+		nowDateOnly = moment(nowDateTime).set({
+			hour: 0,
+			minute: 0,
+			second: 0,
+			millisecond: 0,
+		});
+	}
+
 	// default - the script will run every time when the page open / reload
 	// set the for loop in order to run the day planner after every refresh
-	let hourCount = 9;
-	for (let i = 0; i < 9; i++) {
+	let hourCount = 8;
+	for (let i = 0; i < hourBlockRequire; i++) {
 		// run 9 times for the 9 hours from 9AM to 5PM (function 1)
 		createHourBlock(hourCount);
 		hourCount++;
@@ -120,32 +187,6 @@ $(document).ready(function () {
 	// append the date to jumbotron
 	$('#currentDay').append(selectDisplayDate);
 
-	// change the color of the text area base on the time
-	$('.textareaStyle').each(function (j) {
-		// if the date is the day before => add the class as past
-		if (selectDateOnly < nowDateOnly) {
-			$('#textarea' + (j + 9)).addClass('past');
-			// if the date is today => check the time and change the class accordingly
-		} else if (selectDisplayDate === nowDate) {
-			if (
-				parseInt(nowHour) >
-				parseInt($('#textarea' + (j + 9)).attr('hourTextArea'))
-			) {
-				$('#textarea' + (j + 9)).addClass('past');
-			} else if (
-				parseInt(nowHour) ===
-				parseInt($('#textarea' + (j + 9)).attr('hourTextArea'))
-			) {
-				$('#textarea' + (j + 9)).addClass('present');
-			} else {
-				$('#textarea' + (j + 9)).addClass('future');
-			}
-			// if teh date is furture => change the class to furture
-		} else {
-			$('#textarea' + (j + 9)).addClass('future');
-		}
-	});
-
 	// when the 'go' button is click
 	$('#selectDateBtn').on('click', function () {
 		event.preventDefault();
@@ -164,6 +205,16 @@ $(document).ready(function () {
 		// reload the page
 		location.reload(true);
 	});
+
+	// set the text area color (function 4)
+	setTextAreaColor();
+	// check the color for every minute (function 4)
+	textColorInterval = setInterval(setTextAreaColor, 1000);
+	// if the date is select to other than today => stop the coloring change and stop update the now time
+	if (selectDisplayDate !== nowDate) {
+		clearInterval(textColorInterval);
+		clearInterval(nowTimeInterval);
+	}
 
 	// when the save button is clicked
 	$('.saveBtn').on('click', function () {
