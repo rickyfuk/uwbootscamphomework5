@@ -3,6 +3,9 @@ $(document).ready(function () {
 	var saveDataArray = [];
 	// set the now time
 	var nowDateTime = moment().local();
+	// subtract time for testing only
+	// .subtract(1, 'hour')
+	// .subtract(50, 'minutes');
 	// a variable for current hour
 	var nowHour = moment(nowDateTime).hour();
 	// a variable for the current date in dddd, MMMM Do YYYY format
@@ -27,10 +30,10 @@ $(document).ready(function () {
 	// set a save date format base on the select date
 	var selectDateSave = moment(selectDate).format('MMMM Do YYYY');
 	// the start hour for day planner (i.e. 8 - 8am / 12 -12nn / 16 -4pm )
-	let hourStart = 8;
+	let hourStart = 9;
 	// the hour block to show (i.e. 4 - 4 hours block a day from time start)
 	// (e.g. the start hour is 12nn and a hour block => 12nn/1pm/2pm/3pm)
-	let hourBlockRequire = 16;
+	let hourBlockRequire = 9;
 
 	// function 1 - create the block
 	function createHourBlock(hourCount) {
@@ -83,7 +86,6 @@ $(document).ready(function () {
 		var storedResult = JSON.parse(
 			localStorage.getItem('dayplannerDataArray' + selectDateSave)
 		);
-		console.log(storedResult);
 		if (storedResult !== null) {
 			saveDataArray = storedResult;
 		}
@@ -139,7 +141,7 @@ $(document).ready(function () {
 				// also it will remove the class which is not required
 			} else {
 				$('#textarea' + (j + hourStart)).addClass('future');
-				$('#textarea' + (j + hourStart)).removeClass('future');
+				$('#textarea' + (j + hourStart)).removeClass('past');
 				$('#textarea' + (j + hourStart)).removeClass('present');
 			}
 		});
@@ -149,7 +151,6 @@ $(document).ready(function () {
 	function refreshTime() {
 		// refresh the now time
 		nowDateTime = moment();
-		console.log(nowDateTime);
 		// refresh current hour
 		nowHour = moment(nowDateTime).hour();
 		// refresh for the current date in dddd, MMMM Do YYYY format
@@ -165,7 +166,7 @@ $(document).ready(function () {
 
 	// default - the script will run every time when the page open / reload
 	// set the for loop in order to run the day planner after every refresh
-	let hourCount = 8;
+	let hourCount = hourStart;
 	for (let i = 0; i < hourBlockRequire; i++) {
 		// run 9 times for the 9 hours from 9AM to 5PM (function 1)
 		createHourBlock(hourCount);
@@ -205,6 +206,20 @@ $(document).ready(function () {
 		// reload the page
 		location.reload(true);
 	});
+
+	// the page will reload if it pass the midnight
+	var midnight = moment(nowDateTime)
+		.add(1, 'days')
+		.startOf('day')
+		.add(5, 'seconds');
+	var msToMidnight = midnight - nowDateTime;
+	if (selectDisplayDate === nowDate) {
+		setTimeout(function () {
+			selectDate = nowDateTime;
+			sessionStorage.setItem('changeDate', JSON.stringify(selectDate));
+			location.reload(true);
+		}, msToMidnight);
+	}
 
 	// set the text area color (function 4)
 	setTextAreaColor();

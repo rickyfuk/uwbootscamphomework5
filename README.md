@@ -49,6 +49,8 @@ In this project, the following features have apply to the site:
     | Any time after the hour  | Green |
 
 5. The users can enter the any text in the text area and press "save button" (at the right end of thetext area) to save the item
+6. The color of the text area will change base on the real time. (i.e. if the user stay on the website, tie color of the block will change in the same day)
+7. The day will change to next day after 12AM if the user select the same day.
    
     
 
@@ -190,8 +192,8 @@ Project status: finished
 # Future Plan
 
 Plan for the future development of this site:
-1. Add the features that the user can see the color change with the time instantly. (i.e. when the time reach 4pm, the 3pm block will turn grey and 4pm block turn red without refresh or any action)
-2. Open another text box for the mobile screen size when the text box is selected(under 768px)   
+
+1. Open another text box for the mobile screen size when the text box is selected(under 768px)   
 
 # Create By
 Created by Chung Hei Fuk
