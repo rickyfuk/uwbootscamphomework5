@@ -40,6 +40,8 @@ textarea {
 	background-color: #ffffff;
 	text-align: center;
 	color: rgb(110, 110, 110);
+	max-width: 80%;
+	padding-left: 0px;
 }
 
 #returntoToday {
@@ -114,4 +116,15 @@ textarea {
 .saveBtn img {
 	width: 20px;
 	vertical-align: middle;
+}
+
+@media screen and (max-width: 768px) {
+	.jumbotron h1 {
+		font-size: 4rem !important;
+	}
+
+	.jumbotron p {
+		padding-top: 2rem;
+		line-height: 1;
+	}
 }

@@ -44,16 +44,22 @@
 			<p id="currentDay" class="lead pt-5"></p>
 			<!-- create a datepicker for the user to change the date -->
 			<div id="selectDay" class="row align-items-center justify-content-start">
-				<div class="col-4 text-right selectdateDiv">
+				<div
+					class="col-12 text-center mt-2 col-md-4 pr-md-0 text-md-right selectdateDiv"
+				>
 					Select another Date :
 				</div>
 				<input
 					type="text"
 					autocomplete="off"
-					class="col-4 datepickerInput mx-3"
+					class="col-12 mt-2 col-md-4 datepickerInput mx-md-2 px-md-0 text-center mx-auto"
 					id="datepicker"
 				/>
-				<button id="selectDateBtn" type="button" class="col-2 btn btn-dark">
+				<button
+					id="selectDateBtn"
+					type="button"
+					class="offset-2 mt-2 col-8 offset-md-0 col-md-2 btn btn-dark"
+				>
 					Go
 				</button>
 			</div>
@@ -61,7 +67,7 @@
 			<div id="returntoToday" class="row align-items-center">
 				<button
 					type="button"
-					class="offset-2 col-8 btn btn-dark text-center align-center"
+					class="offset-2 mt-2 col-8 btn btn-dark text-center align-center"
 					id="returntoTodayBtn"
 				>
 					Go to Today

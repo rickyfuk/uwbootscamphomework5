@@ -190,7 +190,8 @@ Project status: finished
 # Future Plan
 
 Plan for the future development of this site:
-1. Add the features that the user can see the color change with the time instantly. (i.e. when the time reach 4pm, the 3pm block will turn grey and 4pm block turn red without refresh or any action)   
+1. Add the features that the user can see the color change with the time instantly. (i.e. when the time reach 4pm, the 3pm block will turn grey and 4pm block turn red without refresh or any action)
+2. Open another text box for the mobile screen size when the text box is selected(under 768px)   
 
 # Create By
 Created by Chung Hei Fuk
